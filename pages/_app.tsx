@@ -6,6 +6,13 @@ import Layout from "components/common/Layout";
 import ContextProvider from "lib/context";
 import "styles.css";
 
+// Initialize MSW mocking
+if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
+  import("../mocks").then(({ initMocks }) => {
+    initMocks();
+  });
+}
+
 const MyApp = ({ Component, pageProps }: AppProps) => (
   <>
     <Head>
