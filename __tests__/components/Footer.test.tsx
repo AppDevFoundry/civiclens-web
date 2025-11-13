@@ -18,37 +18,30 @@ describe('Footer', () => {
     expect(footer).toBeInTheDocument();
   });
 
-  it('renders conduit logo text', () => {
+  it('renders app logo text', () => {
     render(<Footer />);
 
-    expect(screen.getByText('conduit')).toBeInTheDocument();
+    expect(screen.getByText('civiclens')).toBeInTheDocument();
   });
 
   it('renders logo link to home page', () => {
     render(<Footer />);
 
-    const logoLink = screen.getByText('conduit');
+    const logoLink = screen.getByText('civiclens');
     expect(logoLink).toHaveAttribute('href', '/');
   });
 
   it('has logo-font class on logo link', () => {
     render(<Footer />);
 
-    const logoLink = screen.getByText('conduit');
+    const logoLink = screen.getByText('civiclens');
     expect(logoLink).toHaveClass('logo-font');
   });
 
   it('renders attribution text', () => {
     render(<Footer />);
 
-    expect(screen.getByText(/An interactive learning project/)).toBeInTheDocument();
-  });
-
-  it('renders Thinkster link in attribution', () => {
-    render(<Footer />);
-
-    const thinksterLink = screen.getByText('Thinkster');
-    expect(thinksterLink).toHaveAttribute('href', 'https://thinkster.io');
+    expect(screen.getByText(/civic engagement and community building/)).toBeInTheDocument();
   });
 
   it('mentions MIT license', () => {

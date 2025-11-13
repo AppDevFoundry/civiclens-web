@@ -1,13 +1,13 @@
-export const SERVER_BASE_URL = `https://conduit.productionready.io/api`;
+export const SERVER_BASE_URL = `https://api.realworld.io/api`;
 
-export const APP_NAME = `conduit`;
+export const APP_NAME = `CivicLens`;
 
 export const ARTICLE_QUERY_MAP = {
   "tab=feed": `${SERVER_BASE_URL}/articles/feed`,
   "tab=tag": `${SERVER_BASE_URL}/articles/tag`
 };
 
-export const DEFAULT_PROFILE_IMAGE = `https://static.productionready.io/images/smiley-cyrus.jpg`;
+export const DEFAULT_PROFILE_IMAGE = `https://api.dicebear.com/7.x/avataaars/svg?seed=default`;
 
 export const DEFAULT_LIMIT = 20;
 

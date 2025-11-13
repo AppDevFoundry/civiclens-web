@@ -21,7 +21,7 @@ describe('constants', () => {
 
   describe('APP_NAME', () => {
     it('is defined', () => {
-      expect(APP_NAME).toBe('conduit');
+      expect(APP_NAME).toBe('CivicLens');
     });
   });
 
@@ -45,8 +45,11 @@ describe('constants', () => {
       expect(DEFAULT_PROFILE_IMAGE).toMatch(/^https?:\/\//);
     });
 
-    it('is an image URL', () => {
-      expect(DEFAULT_PROFILE_IMAGE).toMatch(/\.(jpg|jpeg|png|gif)$/);
+    it('is an image URL or API endpoint', () => {
+      // Can be a static image file or an API endpoint (like DiceBear)
+      const isImageFile = /\.(jpg|jpeg|png|gif|svg)$/.test(DEFAULT_PROFILE_IMAGE);
+      const isApiEndpoint = DEFAULT_PROFILE_IMAGE.includes('api.dicebear.com');
+      expect(isImageFile || isApiEndpoint).toBe(true);
     });
   });
 

@@ -18,35 +18,35 @@ class MyDocument extends Document {
           <meta name="google" content="notranslate" />
           <meta name="mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
-          <meta name="keywords" content="nextjs, realworld" />
+          <meta name="keywords" content="civic engagement, community, democracy, open government, civic tech" />
           <meta property="og:locale" content="en_US" />
-          <meta property="og:site_name" content="next-realworld" />
-          <meta property="og:title" content="Next.js realworld example app" />
+          <meta property="og:site_name" content="CivicLens" />
+          <meta property="og:title" content="CivicLens - Civic Engagement Platform" />
           <meta
             property="og:description"
-            content="Next.js + SWR codebase containing realworld examples"
+            content="A platform for civic engagement and community building"
           />
-          <meta property="og:url" content="https://next-realworld.now.sh/" />
+          <meta property="og:url" content="https://civiclens.org/" />
           <meta
             property="og:image"
-            content="https://next-realworld.now.sh/images/share-link.png"
+            content="https://civiclens.org/images/share-link.png"
           />
-          <meta property="twitter:card" content="next-realworld" />
+          <meta property="twitter:card" content="summary_large_image" />
           <meta
             property="twitter:url"
-            content="https://next-realworld.now.sh/"
+            content="https://civiclens.org/"
           />
           <meta
             property="twitter:title"
-            content="Next.js realworld example app"
+            content="CivicLens - Civic Engagement Platform"
           />
           <meta
             property="twitter:description"
-            content="Next.js + SWR codebase containing realworld examples"
+            content="A platform for civic engagement and community building"
           />
           <meta
             property="twitter:image"
-            content="https://machimban.com/images/talk-link.jpg"
+            content="https://civiclens.org/images/share-link.png"
           />
           <meta name="msapplication-TileColor" content="#000" />
           <meta

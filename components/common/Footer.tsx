@@ -1,16 +1,16 @@
 import React from "react";
 import Link from "next/link";
+import { APP_NAME } from "../../lib/utils/constant";
 
 const Footer = () => (
   <footer>
     <div className="container">
       <Link href="/" className="logo-font">
-        conduit
+        {APP_NAME.toLowerCase()}
       </Link>
       <span className="attribution">
-        An interactive learning project from{" "}
-        <a href="https://thinkster.io">Thinkster</a>. Code &amp; design licensed
-        under MIT.
+        A platform for civic engagement and community building. Licensed under
+        MIT.
       </span>
     </div>
   </footer>

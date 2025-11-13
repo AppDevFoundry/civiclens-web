@@ -1,7 +1,8 @@
 {
-  "name": "next-realworld-example-app",
+  "name": "civiclens-web",
   "version": "2.0.0",
-  "author": "reck1ess",
+  "description": "CivicLens - A platform for civic engagement and community building",
+  "author": "AppDevFoundry",
   "scripts": {
     "dev": "next dev",
     "dev:mock": "env-cmd -f .env.mock next dev",
