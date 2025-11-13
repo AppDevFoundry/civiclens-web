@@ -38,6 +38,27 @@ const config = {
     '!**/node_modules/**',
   ],
 
+  // Coverage reporters - generates multiple formats for different uses
+  coverageReporters: [
+    'text',           // Console output
+    'text-summary',   // Summary in console
+    'lcov',           // HTML report (lcov-report/) + lcov.info for CI tools
+    'json',           // JSON for programmatic access
+    'json-summary',   // Summary JSON for badges/dashboards
+    'clover',         // Clover XML for CI/CD tools
+  ],
+
+  // Coverage thresholds - fail if coverage drops below these values
+  // Uncomment to enforce minimum coverage in CI/CD
+  // coverageThreshold: {
+  //   global: {
+  //     branches: 25,
+  //     functions: 30,
+  //     lines: 25,
+  //     statements: 25,
+  //   },
+  // },
+
   // Transform ignore patterns
   transformIgnorePatterns: [
     '/node_modules/',

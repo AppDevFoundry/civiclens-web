@@ -13,7 +13,9 @@
     "test:watch": "jest --watch",
     "test:ci": "jest --ci",
     "test:coverage": "jest --coverage",
-    "test:coverage:watch": "jest --coverage --watch"
+    "test:coverage:watch": "jest --coverage --watch",
+    "test:coverage:open": "jest --coverage && open coverage/lcov-report/index.html",
+    "coverage:open": "open coverage/lcov-report/index.html"
   },
   "dependencies": {
     "axios": "^1.7.7",
