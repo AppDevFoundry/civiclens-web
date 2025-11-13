@@ -12,14 +12,14 @@ const NavLink = ({ href, as, children }: NavLinkProps) => {
   const { asPath } = router;
 
   return (
-    <Link href={href} as={as} passHref>
-      <a
-        className={`nav-link ${
-          encodeURIComponent(asPath) === encodeURIComponent(as) && `active`
-        }`}
-      >
-        {children}
-      </a>
+    <Link
+      href={href}
+      as={as}
+      className={`nav-link ${
+        encodeURIComponent(asPath) === encodeURIComponent(as) ? `active` : ""
+      }`}
+    >
+      {children}
     </Link>
   );
 };

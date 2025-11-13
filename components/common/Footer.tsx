@@ -1,11 +1,12 @@
 import React from "react";
+import Link from "next/link";
 
 const Footer = () => (
   <footer>
     <div className="container">
-      <a href="/" className="logo-font">
+      <Link href="/" className="logo-font">
         conduit
-      </a>
+      </Link>
       <span className="attribution">
         An interactive learning project from{" "}
         <a href="https://thinkster.io">Thinkster</a>. Code &amp; design licensed

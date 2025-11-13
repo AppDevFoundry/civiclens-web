@@ -1,17 +1,12 @@
 import Head from "next/head";
 import React from "react";
+import type { AppProps } from "next/app";
 
 import Layout from "components/common/Layout";
 import ContextProvider from "lib/context";
 import "styles.css";
 
-if (typeof window !== "undefined") {
-  require("lazysizes/plugins/attrchange/ls.attrchange.js");
-  require("lazysizes/plugins/respimg/ls.respimg.js");
-  require("lazysizes");
-}
-
-const MyApp = ({ Component, pageProps }) => (
+const MyApp = ({ Component, pageProps }: AppProps) => (
   <>
     <Head>
       <meta

@@ -1,6 +1,6 @@
 import Router, { useRouter } from "next/router";
 import React from "react";
-import useSWR, { trigger } from "swr";
+import useSWR, { useSWRConfig } from "swr";
 
 import CustomLink from "../common/CustomLink";
 import checkLogin from "../../lib/utils/checkLogin";
@@ -11,6 +11,7 @@ import Maybe from "../common/Maybe";
 
 const ArticleActions = ({ article }) => {
   const { data: currentUser } = useSWR("user", storage);
+  const { mutate } = useSWRConfig();
   const isLoggedIn = checkLogin(currentUser);
   const router = useRouter();
   const {
@@ -25,7 +26,7 @@ const ArticleActions = ({ article }) => {
     if (!result) return;
 
     await ArticleAPI.delete(pid, currentUser?.token);
-    trigger(`${SERVER_BASE_URL}/articles/${pid}`);
+    mutate(`${SERVER_BASE_URL}/articles/${pid}`);
     Router.push(`/`);
   };
 
