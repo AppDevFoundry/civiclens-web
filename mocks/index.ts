@@ -1,15 +1,20 @@
 export async function initMocks() {
-  if (typeof window === 'undefined') {
-    // Server-side - no mocking needed for now
-    return;
-  }
-
   // Only enable mocks if environment variable is set
   if (process.env.NEXT_PUBLIC_API_MOCKING !== 'enabled') {
-    console.log('[MSW] Mocking disabled');
     return;
   }
 
+  if (typeof window === 'undefined') {
+    // Server-side - use Node.js server
+    const { server } = await import('./server');
+    server.listen({
+      onUnhandledRequest: 'bypass',
+    });
+    console.log('[MSW] Server-side mocking enabled');
+    return;
+  }
+
+  // Client-side - use browser service worker
   const { worker } = await import('./browser');
 
   // Start the worker
@@ -18,5 +23,15 @@ export async function initMocks() {
     serviceWorker: {
       url: '/mockServiceWorker.js',
     },
+  });
+}
+
+// Initialize server-side mocking immediately when imported on server
+if (typeof window === 'undefined' && process.env.NEXT_PUBLIC_API_MOCKING === 'enabled') {
+  import('./server').then(({ server }) => {
+    server.listen({
+      onUnhandledRequest: 'bypass',
+    });
+    console.log('[MSW] Server-side mocking enabled');
   });
 }
