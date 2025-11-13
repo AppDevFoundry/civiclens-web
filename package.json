@@ -10,7 +10,9 @@
     "type-check": "tsc --noEmit",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:ci": "jest --ci"
+    "test:ci": "jest --ci",
+    "test:coverage": "jest --coverage",
+    "test:coverage:watch": "jest --coverage --watch"
   },
   "dependencies": {
     "axios": "^1.7.7",
