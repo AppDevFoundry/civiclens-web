@@ -1,4 +1,4 @@
-export const SERVER_BASE_URL = `https://conduit.productionready.io/api`;
+export const SERVER_BASE_URL = process.env.NEXT_PUBLIC_API_URL || `https://conduit.productionready.io/api`;
 
 export const APP_NAME = `conduit`;
 

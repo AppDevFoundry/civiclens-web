@@ -37,11 +37,8 @@ const SettingsForm = () => {
     e.preventDefault();
     setLoading(true);
 
-    const user = { ...userInfo };
-
-    if (!user.password) {
-      delete user.password;
-    }
+    const { password, ...userWithoutPassword } = userInfo;
+    const user = password ? userInfo : userWithoutPassword;
 
     const { data, status } = await axios.put(
       `${SERVER_BASE_URL}/user`,

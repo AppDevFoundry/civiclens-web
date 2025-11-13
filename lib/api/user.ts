@@ -66,7 +66,8 @@ const UserAPI = {
     }
   },
   follow: async (username) => {
-    const user: any = JSON.parse(window.localStorage.getItem("user"));
+    const userStr = window.localStorage.getItem("user");
+    const user: any = userStr ? JSON.parse(userStr) : null;
     const token = user?.token;
     try {
       const response = await axios.post(
@@ -84,7 +85,8 @@ const UserAPI = {
     }
   },
   unfollow: async (username) => {
-    const user: any = JSON.parse(window.localStorage.getItem("user"));
+    const userStr = window.localStorage.getItem("user");
+    const user: any = userStr ? JSON.parse(userStr) : null;
     const token = user?.token;
     try {
       const response = await axios.delete(

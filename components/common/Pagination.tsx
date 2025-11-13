@@ -1,5 +1,5 @@
 import React from "react";
-import { trigger } from "swr";
+import { mutate } from "swr";
 
 import { getRange, getPageInfo } from "../../lib/utils/calculatePagination";
 import { usePageDispatch, usePageState } from "../../lib/context/PageContext";
@@ -22,7 +22,8 @@ const Pagination = ({
   lastIndex,
   fetchURL,
 }: PaginationProps) => {
-  const page = usePageState();
+  const pageState = usePageState();
+  const page = pageState || 0;
   const setPage = usePageDispatch();
 
   const { firstPage, lastPage, hasPreviousPage, hasNextPage } = getPageInfo({
@@ -36,46 +37,46 @@ const Pagination = ({
   const handleClick = React.useCallback(
     (e: React.MouseEvent<HTMLLIElement, MouseEvent>, index: number) => {
       e.preventDefault();
-      setPage(index);
-      trigger(fetchURL);
+      setPage?.(index);
+      mutate(fetchURL);
     },
-    []
+    [fetchURL, setPage]
   );
 
   const handleFirstClick = React.useCallback(
     (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
       e.preventDefault();
-      setPage(0);
-      trigger(fetchURL);
+      setPage?.(0);
+      mutate(fetchURL);
     },
-    []
+    [fetchURL, setPage]
   );
 
   const handlePrevClick = React.useCallback(
     (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
       e.preventDefault();
-      setPage(page - 1);
-      trigger(fetchURL);
+      setPage?.(page - 1);
+      mutate(fetchURL);
     },
-    []
+    [fetchURL, setPage, page]
   );
 
   const handleNextClick = React.useCallback(
     (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
       e.preventDefault();
-      setPage(page + 1);
-      trigger(fetchURL);
+      setPage?.(page + 1);
+      mutate(fetchURL);
     },
-    []
+    [fetchURL, setPage, page]
   );
 
   const handleLastClick = React.useCallback(
     (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
       e.preventDefault();
-      setPage(lastIndex);
-      trigger(fetchURL);
+      setPage?.(lastIndex);
+      mutate(fetchURL);
     },
-    []
+    [fetchURL, setPage, lastIndex]
   );
 
   return (

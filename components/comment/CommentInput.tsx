@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useRouter } from "next/router";
 import React from "react";
-import useSWR, { trigger } from "swr";
+import useSWR, { mutate } from "swr";
 
 import CustomImage from "../common/CustomImage";
 import CustomLink from "../common/CustomLink";
@@ -43,7 +43,7 @@ const CommentInput = () => {
     );
     setLoading(false);
     setContent("");
-    trigger(`${SERVER_BASE_URL}/articles/${pid}/comments`);
+    mutate(`${SERVER_BASE_URL}/articles/${pid}/comments`);
   };
 
   if (!isLoggedIn) {

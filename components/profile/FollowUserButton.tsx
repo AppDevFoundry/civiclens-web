@@ -13,7 +13,11 @@ const FollowUserButton = ({
 
   const handleClick = (e) => {
     e.preventDefault();
-    following ? unfollow(username) : follow(username);
+    if (following) {
+      unfollow(username);
+    } else {
+      follow(username);
+    }
   };
 
   return (

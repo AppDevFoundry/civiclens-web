@@ -121,11 +121,13 @@ const UpdateArticleEditor = ({ article: initialArticle }) => {
   );
 };
 
-UpdateArticleEditor.getInitialProps = async ({ query: { pid } }) => {
+export async function getServerSideProps({ query: { pid } }: { query: { pid: string } }) {
   const {
     data: { article },
   } = await ArticleAPI.get(pid);
-  return { article };
-};
+  return {
+    props: { article },
+  };
+}
 
 export default UpdateArticleEditor;

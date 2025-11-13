@@ -88,7 +88,7 @@ const ArticlePreview = ({ article }) => {
             as={`/profile/${preview.author.username}`}
             className="author"
           >
-            <span onClick={() => setPage(0)}>{preview.author.username}</span>
+            <span onClick={() => setPage?.(0)}>{preview.author.username}</span>
           </CustomLink>
           <span className="date">
             {new Date(preview.createdAt).toDateString()}
@@ -118,8 +118,8 @@ const ArticlePreview = ({ article }) => {
         <ul className="tag-list" style={{ maxWidth: "100%" }}>
           {preview.tagList.map((tag, index) => {
             return (
-              <Link href={`/?tag=${tag}`} as={`/?tag=${tag}`} key={index}>
-                <li
+              <li
+                key={index}
                   className="tag-default tag-pill tag-outline"
                   onClick={(e) => e.stopPropagation()}
                   onMouseOver={() => {
@@ -135,17 +135,17 @@ const ArticlePreview = ({ article }) => {
                       hover && currentIndex === index ? "#5cb85c" : "initial",
                   }}
                 >
-                  <span
+                  <Link
+                    href={`/?tag=${tag}`}
                     style={{
                       color:
                         hover && currentIndex === index ? "#5cb85c" : "inherit",
                     }}
-                    onClick={() => setPage(0)}
+                    onClick={() => setPage?.(0)}
                   >
                     {tag}
-                  </span>
+                  </Link>
                 </li>
-              </Link>
             );
           })}
         </ul>

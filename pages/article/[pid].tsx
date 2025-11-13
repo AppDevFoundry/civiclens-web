@@ -1,16 +1,15 @@
-import marked from "marked";
+import { marked } from "marked";
 import { useRouter } from "next/router";
 import React from "react";
 import useSWR from "swr";
 
 import ArticleMeta from "../../components/article/ArticleMeta";
 import CommentList from "../../components/comment/CommentList";
-import ArticleAPI from "../../lib/api/article";
 import { Article } from "../../lib/types/articleType";
 import { SERVER_BASE_URL } from "../../lib/utils/constant";
 import fetcher from "../../lib/utils/fetcher";
 
-const ArticlePage = (initialArticle) => {
+const ArticlePage = () => {
   const router = useRouter();
   const {
     query: { pid },
@@ -18,16 +17,57 @@ const ArticlePage = (initialArticle) => {
 
   const {
     data: fetchedArticle,
+    error,
+    isLoading,
   } = useSWR(
-    `${SERVER_BASE_URL}/articles/${encodeURIComponent(String(pid))}`,
-    fetcher,
-    { initialData: initialArticle }
+    pid ? `${SERVER_BASE_URL}/articles/${encodeURIComponent(String(pid))}` : null,
+    fetcher
   );
 
-  const { article }: Article = fetchedArticle || initialArticle;
+  // Handle loading state
+  if (isLoading || !pid) {
+    return (
+      <div className="article-page">
+        <div className="banner">
+          <div className="container">
+            <h1>Loading article...</h1>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Handle error state
+  if (error) {
+    return (
+      <div className="article-page">
+        <div className="banner">
+          <div className="container">
+            <h1>Error loading article</h1>
+            <p>Could not load the article. Please try again.</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Handle no data state
+  if (!fetchedArticle || !fetchedArticle.article) {
+    return (
+      <div className="article-page">
+        <div className="banner">
+          <div className="container">
+            <h1>Article not found</h1>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const { article }: Article = fetchedArticle;
 
   const markup = {
-    __html: marked(article.body, { sanitize: true }),
+    __html: marked(article.body),
   };
 
   return (
@@ -61,11 +101,6 @@ const ArticlePage = (initialArticle) => {
       </div>
     </div>
   );
-};
-
-ArticlePage.getInitialProps = async ({ query: { pid } }) => {
-  const { data } = await ArticleAPI.get(pid);
-  return data;
 };
 
 export default ArticlePage;

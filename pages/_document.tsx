@@ -1,18 +1,9 @@
-import Document, { Head, Main, NextScript } from "next/document";
+import { Html, Head, Main, NextScript } from "next/document";
 import React from "react";
-import flush from "styled-jsx/server";
 
-class MyDocument extends Document {
-  static async getInitialProps(ctx) {
-    const initialProps = await Document.getInitialProps(ctx);
-    const { html, head } = ctx.renderPage();
-    const styles = flush();
-    return { html, head, styles, ...initialProps };
-  }
-
-  render() {
-    return (
-      <html lang="en">
+export default function Document() {
+  return (
+    <Html lang="en">
         <Head>
           <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
@@ -156,9 +147,6 @@ class MyDocument extends Document {
           <Main />
           <NextScript />
         </body>
-      </html>
+      </Html>
     );
-  }
 }
-
-export default MyDocument;

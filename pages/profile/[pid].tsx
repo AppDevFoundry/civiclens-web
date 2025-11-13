@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import React from "react";
-import useSWR, { mutate, trigger } from "swr";
+import useSWR, { mutate } from "swr";
 
 import ArticleList from "../../components/article/ArticleList";
 import CustomImage from "../../components/common/CustomImage";
@@ -27,15 +27,16 @@ const Profile = ({ initialProfile }) => {
   } = useSWR(
     `${SERVER_BASE_URL}/profiles/${encodeURIComponent(String(pid))}`,
     fetcher,
-    { initialData: initialProfile }
+    { fallbackData: initialProfile }
   );
+
+  const { data: currentUser } = useSWR("user", storage);
 
   if (profileError) return <ErrorMessage message="Can't load profile" />;
 
   const { profile } = fetchedProfile || initialProfile;
   const { username, bio, image, following } = profile;
 
-  const { data: currentUser } = useSWR("user", storage);
   const isLoggedIn = checkLogin(currentUser);
   const isUser = currentUser && username === currentUser?.username;
 
@@ -43,20 +44,20 @@ const Profile = ({ initialProfile }) => {
     mutate(
       `${SERVER_BASE_URL}/profiles/${pid}`,
       { profile: { ...profile, following: true } },
-      false
+      { revalidate: false }
     );
-    UserAPI.follow(pid);
-    trigger(`${SERVER_BASE_URL}/profiles/${pid}`);
+    await UserAPI.follow(pid);
+    mutate(`${SERVER_BASE_URL}/profiles/${pid}`);
   };
 
   const handleUnfollow = async () => {
     mutate(
       `${SERVER_BASE_URL}/profiles/${pid}`,
-      { profile: { ...profile, following: true } },
-      true
+      { profile: { ...profile, following: false } },
+      { revalidate: false }
     );
-    UserAPI.unfollow(pid);
-    trigger(`${SERVER_BASE_URL}/profiles/${pid}`);
+    await UserAPI.unfollow(pid);
+    mutate(`${SERVER_BASE_URL}/profiles/${pid}`);
   };
 
   return (
@@ -101,9 +102,13 @@ const Profile = ({ initialProfile }) => {
   );
 };
 
-Profile.getInitialProps = async ({ query: { pid } }) => {
+export async function getServerSideProps({ query: { pid } }: { query: { pid: string } }) {
   const { data: initialProfile } = await UserAPI.get(pid);
-  return { initialProfile };
-};
+  return {
+    props: {
+      initialProfile,
+    },
+  };
+}
 
 export default Profile;

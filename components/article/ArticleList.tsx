@@ -15,13 +15,15 @@ import {
 import useViewport from "../../lib/hooks/useViewport";
 import { SERVER_BASE_URL, DEFAULT_LIMIT } from "../../lib/utils/constant";
 import fetcher from "../../lib/utils/fetcher";
+import { ArticleType } from "../../lib/types/articleType";
 
 const ArticleList = () => {
-  const page = usePageState();
+  const pageState = usePageState();
+  const page = pageState || 0;
   const pageCount = usePageCountState();
   const setPageCount = usePageCountDispatch();
   const lastIndex =
-    pageCount > 480 ? Math.ceil(pageCount / 20) : Math.ceil(pageCount / 20) - 1;
+    (pageCount || 0) > 480 ? Math.ceil((pageCount || 0) / 20) : Math.ceil((pageCount || 0) / 20) - 1;
 
   const { vw } = useViewport();
   const router = useRouter();
@@ -73,7 +75,9 @@ const ArticleList = () => {
   if (!data) return <LoadingSpinner />;
 
   const { articles, articlesCount } = data;
-  setPageCount(articlesCount);
+  if (setPageCount) {
+    setPageCount(articlesCount);
+  }
 
   if (articles && articles.length === 0) {
     return <div className="article-preview">No articles are here... yet.</div>;
@@ -81,13 +85,13 @@ const ArticleList = () => {
 
   return (
     <>
-      {articles?.map((article) => (
+      {articles?.map((article: ArticleType) => (
         <ArticlePreview key={article.slug} article={article} />
       ))}
 
       <Maybe test={articlesCount && articlesCount > 20}>
         <Pagination
-          total={pageCount}
+          total={pageCount || 0}
           limit={20}
           pageCount={vw >= 768 ? 10 : 5}
           currentPage={page}
