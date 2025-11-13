@@ -17,6 +17,8 @@ const nextConfig = {
   experimental: {
     // Enable typed routes for better TypeScript support
     typedRoutes: false,
+    // Enable instrumentation hook for server-side initialization (MSW)
+    instrumentationHook: true,
   },
 
   // Compiler options
