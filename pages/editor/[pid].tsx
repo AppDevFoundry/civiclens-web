@@ -2,6 +2,7 @@ import axios from "axios";
 import Router, { useRouter } from "next/router";
 import React from "react";
 import useSWR from "swr";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 
 import ListErrors from "../../components/common/ListErrors";
 import TagInput from "../../components/editor/TagInput";
@@ -10,7 +11,9 @@ import { SERVER_BASE_URL } from "../../lib/utils/constant";
 import editorReducer from "../../lib/utils/editorReducer";
 import storage from "../../lib/utils/storage";
 
-const UpdateArticleEditor = ({ article: initialArticle }) => {
+const UpdateArticleEditor = ({
+  article: initialArticle,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const initialState = {
     title: initialArticle.title,
     description: initialArticle.description,
@@ -27,16 +30,16 @@ const UpdateArticleEditor = ({ article: initialArticle }) => {
     query: { pid },
   } = router;
 
-  const handleTitle = (e) =>
+  const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) =>
     dispatch({ type: "SET_TITLE", text: e.target.value });
-  const handleDescription = (e) =>
+  const handleDescription = (e: React.ChangeEvent<HTMLInputElement>) =>
     dispatch({ type: "SET_DESCRIPTION", text: e.target.value });
-  const handleBody = (e) =>
+  const handleBody = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
     dispatch({ type: "SET_BODY", text: e.target.value });
-  const addTag = (tag) => dispatch({ type: "ADD_TAG", tag: tag });
-  const removeTag = (tag) => dispatch({ type: "REMOVE_TAG", tag: tag });
+  const addTag = (tag: string) => dispatch({ type: "ADD_TAG", tag: tag });
+  const removeTag = (tag: string) => dispatch({ type: "REMOVE_TAG", tag: tag });
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setLoading(true);
 
@@ -121,11 +124,12 @@ const UpdateArticleEditor = ({ article: initialArticle }) => {
   );
 };
 
-UpdateArticleEditor.getInitialProps = async ({ query: { pid } }) => {
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const pid = params?.pid;
   const {
     data: { article },
-  } = await ArticleAPI.get(pid);
-  return { article };
+  } = await ArticleAPI.get(pid as string);
+  return { props: { article } };
 };
 
 export default UpdateArticleEditor;

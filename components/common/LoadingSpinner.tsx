@@ -1,7 +1,7 @@
 import React from "react";
 
 const LoadingSpinner = () => (
-  <div className="loading-spinner">
+  <div className="loading-spinner" data-testid="loading-spinner">
     <style>
       {`
         @keyframes spin {

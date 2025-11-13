@@ -67,7 +67,7 @@ const ArticlePreview = ({ article }) => {
     }
   };
 
-  if (!article) return;
+  if (!article) return null;
 
   return (
     <div className="article-preview" style={{ padding: "1.5rem 0.5rem" }}>
@@ -118,34 +118,35 @@ const ArticlePreview = ({ article }) => {
         <ul className="tag-list" style={{ maxWidth: "100%" }}>
           {preview.tagList.map((tag, index) => {
             return (
-              <Link href={`/?tag=${tag}`} as={`/?tag=${tag}`} key={index}>
-                <li
-                  className="tag-default tag-pill tag-outline"
-                  onClick={(e) => e.stopPropagation()}
-                  onMouseOver={() => {
-                    setHover(true);
-                    setCurrentIndex(index);
-                  }}
-                  onMouseLeave={() => {
-                    setHover(false);
-                    setCurrentIndex(-1);
-                  }}
+              <li
+                key={index}
+                className="tag-default tag-pill tag-outline"
+                onClick={(e) => e.stopPropagation()}
+                onMouseOver={() => {
+                  setHover(true);
+                  setCurrentIndex(index);
+                }}
+                onMouseLeave={() => {
+                  setHover(false);
+                  setCurrentIndex(-1);
+                }}
+                style={{
+                  borderColor:
+                    hover && currentIndex === index ? "#5cb85c" : "initial",
+                }}
+              >
+                <Link
+                  href={`/?tag=${tag}`}
                   style={{
-                    borderColor:
-                      hover && currentIndex === index ? "#5cb85c" : "initial",
+                    color:
+                      hover && currentIndex === index ? "#5cb85c" : "inherit",
+                    textDecoration: "none",
                   }}
+                  onClick={() => setPage(0)}
                 >
-                  <span
-                    style={{
-                      color:
-                        hover && currentIndex === index ? "#5cb85c" : "inherit",
-                    }}
-                    onClick={() => setPage(0)}
-                  >
-                    {tag}
-                  </span>
-                </li>
-              </Link>
+                  {tag}
+                </Link>
+              </li>
             );
           })}
         </ul>

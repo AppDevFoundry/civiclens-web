@@ -1,17 +1,23 @@
 import Head from "next/head";
 import React from "react";
+import type { AppProps } from "next/app";
 
 import Layout from "components/common/Layout";
 import ContextProvider from "lib/context";
 import "styles.css";
 
-if (typeof window !== "undefined") {
-  require("lazysizes/plugins/attrchange/ls.attrchange.js");
-  require("lazysizes/plugins/respimg/ls.respimg.js");
-  require("lazysizes");
+// Initialize MSW mocking for client-side
+// Server-side mocking is handled by instrumentation.ts
+if (
+  typeof window !== "undefined" &&
+  process.env.NEXT_PUBLIC_API_MOCKING === "enabled"
+) {
+  import("../mocks").then(({ initMocks }) => {
+    initMocks();
+  });
 }
 
-const MyApp = ({ Component, pageProps }) => (
+const MyApp = ({ Component, pageProps }: AppProps) => (
   <>
     <Head>
       <meta

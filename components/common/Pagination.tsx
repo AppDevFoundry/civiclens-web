@@ -1,5 +1,5 @@
 import React from "react";
-import { trigger } from "swr";
+import { useSWRConfig } from "swr";
 
 import { getRange, getPageInfo } from "../../lib/utils/calculatePagination";
 import { usePageDispatch, usePageState } from "../../lib/context/PageContext";
@@ -24,6 +24,7 @@ const Pagination = ({
 }: PaginationProps) => {
   const page = usePageState();
   const setPage = usePageDispatch();
+  const { mutate } = useSWRConfig();
 
   const { firstPage, lastPage, hasPreviousPage, hasNextPage } = getPageInfo({
     limit,
@@ -37,45 +38,45 @@ const Pagination = ({
     (e: React.MouseEvent<HTMLLIElement, MouseEvent>, index: number) => {
       e.preventDefault();
       setPage(index);
-      trigger(fetchURL);
+      mutate(fetchURL);
     },
-    []
+    [setPage, mutate, fetchURL]
   );
 
   const handleFirstClick = React.useCallback(
     (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
       e.preventDefault();
       setPage(0);
-      trigger(fetchURL);
+      mutate(fetchURL);
     },
-    []
+    [setPage, mutate, fetchURL]
   );
 
   const handlePrevClick = React.useCallback(
     (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
       e.preventDefault();
       setPage(page - 1);
-      trigger(fetchURL);
+      mutate(fetchURL);
     },
-    []
+    [setPage, mutate, fetchURL, page]
   );
 
   const handleNextClick = React.useCallback(
     (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
       e.preventDefault();
       setPage(page + 1);
-      trigger(fetchURL);
+      mutate(fetchURL);
     },
-    []
+    [setPage, mutate, fetchURL, page]
   );
 
   const handleLastClick = React.useCallback(
     (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
       e.preventDefault();
       setPage(lastIndex);
-      trigger(fetchURL);
+      mutate(fetchURL);
     },
-    []
+    [setPage, mutate, fetchURL, lastIndex]
   );
 
   return (

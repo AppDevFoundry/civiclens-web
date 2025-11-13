@@ -1,18 +1,19 @@
 import axios from "axios";
 import { useRouter } from "next/router";
-import useSWR, { trigger } from "swr";
+import useSWR, { useSWRConfig } from "swr";
 
 import { SERVER_BASE_URL } from "../../lib/utils/constant";
 import storage from "../../lib/utils/storage";
 
 const DeleteButton = ({ commentId }) => {
   const { data: currentUser } = useSWR("user", storage);
+  const { mutate } = useSWRConfig();
   const router = useRouter();
   const {
     query: { pid },
   } = router;
 
-  const handleDelete = async (commentId) => {
+  const handleDelete = async (commentId: string) => {
     await axios.delete(
       `${SERVER_BASE_URL}/articles/${pid}/comments/${commentId}`,
       {
@@ -21,7 +22,7 @@ const DeleteButton = ({ commentId }) => {
         },
       }
     );
-    trigger(`${SERVER_BASE_URL}/articles/${pid}/comments`);
+    mutate(`${SERVER_BASE_URL}/articles/${pid}/comments`);
   };
 
   return (

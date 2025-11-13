@@ -1,7 +1,9 @@
-import marked from "marked";
+import { marked } from "marked";
+import DOMPurify from "isomorphic-dompurify";
 import { useRouter } from "next/router";
 import React from "react";
 import useSWR from "swr";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 
 import ArticleMeta from "../../components/article/ArticleMeta";
 import CommentList from "../../components/comment/CommentList";
@@ -10,24 +12,24 @@ import { Article } from "../../lib/types/articleType";
 import { SERVER_BASE_URL } from "../../lib/utils/constant";
 import fetcher from "../../lib/utils/fetcher";
 
-const ArticlePage = (initialArticle) => {
+const ArticlePage = ({
+  initialArticle,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
   const {
     query: { pid },
   } = router;
 
-  const {
-    data: fetchedArticle,
-  } = useSWR(
+  const { data: fetchedArticle } = useSWR(
     `${SERVER_BASE_URL}/articles/${encodeURIComponent(String(pid))}`,
     fetcher,
-    { initialData: initialArticle }
+    { fallbackData: initialArticle }
   );
 
   const { article }: Article = fetchedArticle || initialArticle;
 
   const markup = {
-    __html: marked(article.body, { sanitize: true }),
+    __html: DOMPurify.sanitize(marked(article.body) as string),
   };
 
   return (
@@ -63,9 +65,14 @@ const ArticlePage = (initialArticle) => {
   );
 };
 
-ArticlePage.getInitialProps = async ({ query: { pid } }) => {
-  const { data } = await ArticleAPI.get(pid);
-  return data;
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const pid = params?.pid;
+  const { data } = await ArticleAPI.get(pid as string);
+  return {
+    props: {
+      initialArticle: data,
+    },
+  };
 };
 
 export default ArticlePage;

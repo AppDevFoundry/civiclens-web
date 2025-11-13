@@ -1,18 +1,15 @@
-import Document, { Head, Main, NextScript } from "next/document";
+import Document, { Html, Head, Main, NextScript, DocumentContext } from "next/document";
 import React from "react";
-import flush from "styled-jsx/server";
 
 class MyDocument extends Document {
-  static async getInitialProps(ctx) {
+  static async getInitialProps(ctx: DocumentContext) {
     const initialProps = await Document.getInitialProps(ctx);
-    const { html, head } = ctx.renderPage();
-    const styles = flush();
-    return { html, head, styles, ...initialProps };
+    return { ...initialProps };
   }
 
   render() {
     return (
-      <html lang="en">
+      <Html lang="en">
         <Head>
           <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
@@ -21,35 +18,35 @@ class MyDocument extends Document {
           <meta name="google" content="notranslate" />
           <meta name="mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
-          <meta name="keywords" content="nextjs, realworld" />
+          <meta name="keywords" content="civic engagement, community, democracy, open government, civic tech" />
           <meta property="og:locale" content="en_US" />
-          <meta property="og:site_name" content="next-realworld" />
-          <meta property="og:title" content="Next.js realworld example app" />
+          <meta property="og:site_name" content="CivicLens" />
+          <meta property="og:title" content="CivicLens - Civic Engagement Platform" />
           <meta
             property="og:description"
-            content="Next.js + SWR codebase containing realworld examples"
+            content="A platform for civic engagement and community building"
           />
-          <meta property="og:url" content="https://next-realworld.now.sh/" />
+          <meta property="og:url" content="https://civiclens.org/" />
           <meta
             property="og:image"
-            content="https://next-realworld.now.sh/images/share-link.png"
+            content="https://civiclens.org/images/share-link.png"
           />
-          <meta property="twitter:card" content="next-realworld" />
+          <meta property="twitter:card" content="summary_large_image" />
           <meta
             property="twitter:url"
-            content="https://next-realworld.now.sh/"
+            content="https://civiclens.org/"
           />
           <meta
             property="twitter:title"
-            content="Next.js realworld example app"
+            content="CivicLens - Civic Engagement Platform"
           />
           <meta
             property="twitter:description"
-            content="Next.js + SWR codebase containing realworld examples"
+            content="A platform for civic engagement and community building"
           />
           <meta
             property="twitter:image"
-            content="https://machimban.com/images/talk-link.jpg"
+            content="https://civiclens.org/images/share-link.png"
           />
           <meta name="msapplication-TileColor" content="#000" />
           <meta
@@ -136,8 +133,8 @@ class MyDocument extends Document {
               "logo": "https://next-realworld.now.sh/images/share-link.png",
               "sameAs": [
                 "https://realworld.io",
-                "https://medium.com/@ericsimons/introducing-realworld-6016654d36b5",
-              ],
+                "https://medium.com/@ericsimons/introducing-realworld-6016654d36b5"
+              ]
             }`,
             }}
           />
@@ -156,7 +153,7 @@ class MyDocument extends Document {
           <Main />
           <NextScript />
         </body>
-      </html>
+      </Html>
     );
   }
 }
